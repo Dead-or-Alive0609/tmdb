@@ -1,23 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
+
 export default function App() {
-  const API_KEY = import.meta.env.VITE_API_KEY;
-  const API_URL = import.meta.env.VITE_API_URL;
   const [movies, setMovies] = useState([]);
+
   const btnHandler = () => {
     axios
-      // .get(`${API_URL}/3/discover/movie`, {
-      //   headers: {
-      //     Authorization: `Bearer ${API_KEY}`,
-      //   },
-      // })
-      .get(`${API_URL}/3/search/movie`, {
+      .get("/api/movies", {
         params: {
-          query: "avengers",
-          // query: "범죄도시",
-        },
-        headers: {
-          Authorization: `Bearer ${API_KEY}`,
+          query: "avengers", // ← 원하는 검색어 입력
         },
       })
       .then((response) => {
@@ -27,7 +18,8 @@ export default function App() {
       .catch((error) => {
         console.error("에러 발생:", error);
       });
-    };  
+  };
+
   return (
     <div>
       <button onClick={btnHandler}>Load Movies</button>
@@ -40,7 +32,7 @@ export default function App() {
               style={{ width: "100%", borderRadius: "8px" }}
             />
             <h4>{movie.original_title}</h4>
-          </div>  
+          </div>
         ))}
       </div>
     </div>
